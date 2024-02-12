@@ -7,10 +7,20 @@
 </head>
 <body>
     <div class="container">
-        <textarea name="" id="" cols="30" rows="10">
+        <textarea name="" id="txt" cols="30" rows="10">
 
         </textarea>
-        <button>Voice</button>
+        <button id="btn" >Voice</button>
     </div>
+
+    <script>
+        
+        let speech = new SpeechSynthesisUtterance();
+
+        document.getElementById('btn').addEventListener("click",()=>{
+            speech.text = document.getElementById('txt').value;
+            window.speechSynthesis.speak(speech);
+        });
+    </script>
 </body>
 </html>
