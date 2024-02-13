@@ -1,26 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Text to voice converter</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courgette&family=Protest+Revolution&family=Satisfy&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            text-decoration: none;
+        }
+
+        body {
+            background-image: url('https://i.pinimg.com/564x/16/9a/88/169a88947fe29fb44d8f24d8d31b82ee.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .container {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container h1 {
+            padding-bottom: 30px;
+            font-size: 60px;
+            font-family: "Courgette", cursive;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .container .textbx textarea {
+            width: 600px;
+            height: 300px;
+            border-radius: 20px;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: 300;
+            resize: none;
+            background: #ffffff7c;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .container .btn {
+            width: 600px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .container .btn select{
+            flex: 1;
+            height: 50px;
+            padding: 0 20px;
+            border-radius: 20px;
+            background: #ffffff7c;
+             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .container .btn select{
+            font-size: 16px;
+        }
+
+        .container .btn button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 20px;
+            width: 120px;
+            border-radius: 10px;
+            font-size: 16px;
+            border-style: none;
+            cursor: pointer;
+            background: #ffffff7c;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .container .btn button:hover{
+            background-color:rgb(201, 159, 241);
+            border: 1px solid rgb(162, 80, 239);
+        }
+
+        .container .btn button img{
+            width: 25px;
+            padding: 4px;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
-        <textarea name="" id="txt" cols="30" rows="10">
-
-        </textarea>
-        <button id="btn" >Voice</button>
+        <h1>Text to voice converter</h1>
+        <div class="textbx">
+            <textarea name="" placeholder="Write something here...." id="txt" cols="30" rows="10"></textarea>
+        </div>
+        <div class="btn">
+            <select name="" id="select"></select>
+            <button id="btn"><img src="assets/sound.png" alt=""> Voice</button>
+        </div>
     </div>
 
     <script>
-        
-        let speech = new SpeechSynthesisUtterance();
 
-        document.getElementById('btn').addEventListener("click",()=>{
+        let speech = new SpeechSynthesisUtterance();
+        document.getElementById('btn').addEventListener("click", () => {
             speech.text = document.getElementById('txt').value;
             window.speechSynthesis.speak(speech);
         });
+
+        let voices=[];
+        let voiceSelect = document.getElementById('select');
+
+        window.speechSynthesis.onvoiceschanged = () =>{
+            voices = window.speechSynthesis.getVoices();
+            speech.voice = voices[0];
+
+            voices.forEach((voice, i)=>
+            (voiceSelect.options[i]= new Option(voice.name,i)));
+        };
+
+        voiceSelect.addEventListener("change", ()=>{
+            speech.voice = voices[voiceSelect.value];
+        });
     </script>
 </body>
+
 </html>
